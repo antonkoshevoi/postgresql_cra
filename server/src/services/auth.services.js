@@ -10,7 +10,7 @@ class AuthService {
             throw HttpException(400, "You're not data");
         }
 
-        const findUser = await this.findUserByEmail(data.email);
+        const findUser = await this.findUserById(data.id);
 
         if (!findUser) {
             throw HttpException(400, "User not found");
@@ -23,12 +23,14 @@ class AuthService {
 
         if (!comparePassword) HttpException(400, "You're password not matching");
 
+        const { token } = this.createToken(findUser);
+        return { token, user: { id: findUser.id, email: findUser.email, role: findUser.role } };
     }
 
-    async findUserByEmail(email) {
+    async findUserById(id) {
         const findUser = await this.users.findOne({
             where: {
-                email
+                id
             }
         })
 
@@ -47,9 +49,9 @@ class AuthService {
     }
 
     createToken(user) {
-        const store = { user: user.email, role: user.role};
+        const store = { id: user.id, email: user.email, role: user.role};
         const secret = process.env.JWT_SECRET;
-        const expiresIn = "24h";
+        const expiresIn = "1h"; // 24h
 
         return {
             expiresIn,

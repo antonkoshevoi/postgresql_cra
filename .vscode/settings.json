@@ -5,6 +5,16 @@
             "server": "localhost",
             "port": 5432,
             "driver": "PostgreSQL",
+            "name": "postgres",
+            "database": "template1",
+            "username": "postgres",
+            "password": "root"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
             "name": "postgresql_cra",
             "database": "template1",
             "username": "postgres",

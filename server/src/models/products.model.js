@@ -36,12 +36,9 @@ class ProductModel extends Model {
         )
     }
 
-
+    static associate(model) {
+        this.belongsTo(model.Users, {foreignKey: 'userId', as: 'user' })
+    }
 }
-
-// ProductModel.hasOne(UserModel, {
-//     foreignKey: 'userId',
-//     as: 'user',
-// })
 
 module.exports = ProductModel;

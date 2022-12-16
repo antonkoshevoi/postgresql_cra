@@ -17,7 +17,7 @@ class App {
         this.connectToDataBase();
         this.initializeMiddleware();
         this.initializeRoutes(routes);
-        this.initializeErrorHandling()
+        this.initializeErrorHandling();
     }
 
     listen() {
@@ -31,7 +31,7 @@ class App {
     }
 
     connectToDataBase() {
-        DB.sequelize.sync({force: false})
+        DB.sequelize.sync({force: false, alter: true})
     }
 
     initializeMiddleware() {

@@ -10,7 +10,7 @@ class IndexRoute {
     }
 
     initializeRoutes() {
-        this.router.get("/api", )
+        this.router.get("/api", this.indexController.index)
     }
 }
 

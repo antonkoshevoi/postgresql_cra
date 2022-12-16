@@ -19,7 +19,7 @@ class UserModel extends Model {
                 },
                 role: {
                     allowNull: false,
-                    type: DataTypes.STRING(255),
+                    type: DataTypes.ENUM('user', 'seller'),
                 }
             },
             {
@@ -28,6 +28,10 @@ class UserModel extends Model {
                 timestamps: false
             }
         )
+    }
+
+    static associate(model) {
+        this.hasMany(model.Products, {foreignKey: 'userId', as: 'products' })
     }
 }
 

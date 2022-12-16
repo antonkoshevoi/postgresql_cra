@@ -20,8 +20,17 @@ sequelize
         console.log(`Unable to connect to the database: ${error}.`);
     });
 
+    const models = {
+        Users: UserModel.init(sequelize, Sequelize),
+        Products: ProductModel.init(sequelize, Sequelize),
+    };
+
+    Object.values(models)
+    .filter(model => typeof model.associate === "function")
+    .forEach(model => model.associate(models));
+
 const DB = {
-    Users: UserModel.init(sequelize, Sequelize),
+    ...models,
     sequelize,
     Sequelize
 };
