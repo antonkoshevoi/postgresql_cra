@@ -10,7 +10,7 @@ class AuthRoute {
     }
 
     initializeRoutes() {
-        this.router.get("/api/auth/login", this.authController.login)
+        this.router.post("/api/auth/login", this.authController.login)
     }
 }
 

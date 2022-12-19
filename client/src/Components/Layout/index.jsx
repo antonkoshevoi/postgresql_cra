@@ -1,14 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import { Outlet } from "react-router-dom"
+import CartModal from "../CartModal"
 import Header from "../Header"
 
 import './styles.scss'
 
 const Layout = () => {
+  const [open, setOpen] = useState(false)
+
+  const toggle = () => {
+      setOpen(!open)
+  }
 
   return (
     <>
-      <Header />
+      <Header toggle={toggle} />
+      {open && <CartModal toggle={toggle}/>}
       <div className="main">
         <Outlet />
       </div>

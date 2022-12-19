@@ -1,12 +1,10 @@
 const jwt = require("jsonwebtoken");
-const HttpException = require("../exceptions/HttpExceptions");
+const HttpException = require("../exceptions/httpExceptions");
 const DB = require("../database");
 
 const authMiddleware = async (req, res, next) => {
   const headers = req.headers;
   const isBearer = headers && headers.authorization.split(" ")[0] === "Bearer";
-  
-  console.log({isBearer});
 
   try {
     if (headers && isBearer) {

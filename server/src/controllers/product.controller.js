@@ -1,13 +1,13 @@
-const ProductService = require("../services/product.services");
+const ProductService = require("../services/product.service");
 
 class productController {
     productService = new ProductService()
 
-    async getProducts(req, res, next) {
+    getProducts = async(req, res, next) => {
     
         try {
-            const { products } = await this.productService.getProducts();
-            res.status(200).json({ products });
+            const { products, inventory } = await this.productService.getProducts();
+            res.status(200).json({ products, inventory });
         } catch (error) {
             next(error);
         }

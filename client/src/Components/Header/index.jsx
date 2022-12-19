@@ -1,12 +1,25 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ShoppingCart } from "phosphor-react"
+import { Link, useLocation } from 'react-router-dom'
+import { AuthContext } from '../../Context/authContext'
 
 import './styles.scss'
-import { Link, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
-const Header = () => {
-    const { pathname } = useLocation();
-    console.log('loc', pathname);
+
+const Header = ({ toggle }) => {
+    const { pathname } = useLocation()
+    const [ authState ] = useContext(AuthContext)
+    const [email, setEmail] = useState(null)
+
+    useEffect(() => {
+        if (authState.email && authState.signedIn) {
+            setEmail(authState.email)
+        } else {
+            setEmail(null)
+        }
+    }, [authState])
 
     return(
         <header className="header">
@@ -22,11 +35,11 @@ const Header = () => {
             </nav>
 
             <div className='header-cart'>
-                <div className='auth-email'>
-                    email
-                </div>
+                {email  && <div className='auth-email'>
+                    {email}
+                </div>}
                 <button className='btn btn-white'>
-                    <ShoppingCart size={30} color="#424242"/>
+                    <ShoppingCart size={30} color="#424242" onClick={toggle}/>
                 </button>
             </div>
         </header>

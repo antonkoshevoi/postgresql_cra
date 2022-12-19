@@ -2,6 +2,8 @@ const Sequelize = require("sequelize");
 const bdConfig = require("../config/index");
 const UserModel = require("../models/users.model");
 const ProductModel = require("../models/products.model");
+const CartModel = require("../models/carts.model");
+const CartItemModel = require("../models/cartItems.model");
 
 const env = process.env.NODE_ENV || "development";
 
@@ -23,6 +25,8 @@ sequelize
     const models = {
         Users: UserModel.init(sequelize, Sequelize),
         Products: ProductModel.init(sequelize, Sequelize),
+        Carts: CartModel.init(sequelize, Sequelize),
+        CartItems: CartItemModel.init(sequelize, Sequelize)
     };
 
     Object.values(models)

@@ -10,7 +10,7 @@ class AuthService {
             throw HttpException(400, "You're not data");
         }
 
-        const findUser = await this.findUserById(data.id);
+        const findUser = await this.findUserByEmail(data.email);
 
         if (!findUser) {
             throw HttpException(400, "User not found");
@@ -27,10 +27,10 @@ class AuthService {
         return { token, user: { id: findUser.id, email: findUser.email, role: findUser.role } };
     }
 
-    async findUserById(id) {
+    async findUserByEmail(email) {
         const findUser = await this.users.findOne({
             where: {
-                id
+                email
             }
         })
 
@@ -51,7 +51,7 @@ class AuthService {
     createToken(user) {
         const store = { id: user.id, email: user.email, role: user.role};
         const secret = process.env.JWT_SECRET;
-        const expiresIn = "1h"; // 24h
+        const expiresIn = "24h";
 
         return {
             expiresIn,
