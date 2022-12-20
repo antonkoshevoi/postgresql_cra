@@ -6,8 +6,8 @@ class ProductService {
     products = DB.Products;
 
     async getProducts() {
-        const allProducts = await this.products.findAll();
-        const inventory = await this.getTotalProductsGroupByUser();;
+        const allProducts = await this.products.findAll().catch(err=> console.error(err));
+        const inventory = await this.getTotalProductsGroupByUser();
         return { products: allProducts, inventory };
     }
 
@@ -25,11 +25,11 @@ class ProductService {
                 ],
                     group: ['userId', 'user.id'],
                     raw: [true]
-                });
+                }).catch(err=> console.error(err));
 
                 return data;
         } catch(err) {
-            next(new HttpException(400, err.message));
+            new HttpException(400, err.message);
         }
 
     }

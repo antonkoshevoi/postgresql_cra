@@ -11,13 +11,16 @@
         display: flex;
         flex-direction: column;
 
+        .cursor-pointer {
+            cursor: pointer;
+        }
+        
         .product-item {
             width: 100%;
             display: flex;
             border-bottom: 1.5px lighten($grey2, 20%) solid;
             padding: 1rem;
             flex-wrap: wrap;
-            cursor: pointer;
 
             .image-wrapper {
                 min-width: 10rem;
@@ -34,7 +37,7 @@
                     height: 8rem;
                     width: 8rem;
 
-                    @include r(425) {
+                    @include r(570) {
                         min-width: 100%;
                     }
                 }
@@ -59,10 +62,18 @@
                 width: 50%;
                 margin-left: 2rem;
 
-                @include r(425) {
-                    margin-left: 0;
-                    margin-top: 1rem;
-                    min-width: 80%;
+                @include r(768) {
+                    min-width: 57%;
+
+                    @include r(730) {
+                        min-width: 45%;
+
+                        @include r(570) {
+                            margin-left: 0;
+                            margin-top: 1rem;
+                            min-width: 80%;
+                        }
+                    }
                 }
 
                 .title {
@@ -85,7 +96,7 @@
             }
 
             .price {
-                margin-left: 2rem;
+                margin-left: 0;
                 width: 20%;
                 font-family: 'Montserrat', sans-serif;
                 color: $black;
@@ -125,6 +136,14 @@
     margin-top: 3rem;
     background-color: lighten($grey2, 30%);
     padding: 0.5rem;
+
+    &-title {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
 
     .inventory-item {
         display: flex;

@@ -10,16 +10,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      cartItemId: {
-        allowNull: true,
-        type: Sequelize.INTEGER,
-        references: { 
-          model: 'cartItems',
-          key: 'id'
-        },
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-      },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -37,4 +27,3 @@ module.exports = {
     await queryInterface.dropTable('carts');
   }
 };
-

@@ -1,6 +1,34 @@
+import { useContext, useState } from 'react';
+import { useEffect } from 'react'
+import { AuthContext } from '../../Context/authContext';
+import { cartServices } from '../../Services/cartServices';
 import './styles.scss'
 
 const Cart = () => {
+    const [products, setProducts] = useState([])
+    const [ authState ] = useContext(AuthContext)
+
+    const total = products.length ?
+        products.map(item => item.products.price * item.quantity).reduce((prev, curr) => prev + curr, 0)
+        : 0
+
+    useEffect(() => {
+        if(authState.id && authState.role === 'user') {
+            let isSubscribed = true;
+    
+            const fetchData = async () => {
+                const data = await cartServices.getProductsInCart({userId: authState.id})
+                const json = await data.data.products
+    
+                if (isSubscribed) {
+                    setProducts(json)
+                }
+            }
+        
+            fetchData().catch(err=> console.error(err))
+            return () => isSubscribed = false
+        }
+    }, [authState.id, authState.role])
 
     return (
         <div className='cart'>
@@ -9,58 +37,38 @@ const Cart = () => {
             </h3>
 
             <div className='cart-table'>
-                <div className='cart-item'>
-                    <div className='image-wrapper'>
-                        <img src="http://fakeimg.pl/150/e5e5e5/adadad/?text=IMG" alt="shopping"/>
-                    </div>
-
-                    <div className='content'>
-                        <div className='title'>
-                            title
+                { products?.length ?
+                products.map((item, i) => {
+                    return (
+                        <div key={`${i}-${item.id}`} className='cart-item'>
+                            <div className='image-wrapper'>
+                                <img src="http://fakeimg.pl/150/e5e5e5/adadad/?text=IMG" alt="shopping"/>
+                            </div>
+        
+                            <div className='content'>
+                                <div className='title'>
+                                    {item.products.title}
+                                </div>
+                            </div>
+        
+                            <div className='qty'>
+                                {item.quantity}
+                            </div>
+        
+                            <div className='price'>
+                                <span>{item.quantity * item.products.price} $</span>
+                            </div>
                         </div>
-                        <div className='description'>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium ipsum nulla nobis. Laudantium, a illo!
-                        </div>
-                    </div>
-
-                    <div className='qty'>
-                        1
-                    </div>
-
-                    <div className='price'>
-                        <span>545 $</span>
-                    </div>
-                </div>
-
-                <div className='cart-item'>
-                    <div className='image-wrapper'>
-                        <img src="http://fakeimg.pl/150/e5e5e5/adadad/?text=IMG" alt="shopping"/>
-                    </div>
-
-                    <div className='content'>
-                        <div className='title'>
-                            title
-                        </div>
-                        <div className='description'>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium ipsum nulla nobis. Laudantium, a illo!
-                        </div>
-                    </div>
-
-                    <div className='qty'>
-                        1
-                    </div>
-
-                    <div className='price'>
-                        <span>545 $</span>
-                    </div>
-                </div>
+                    )
+                })
+                : <div className='empty-cart'>Your cart is empty</div>}
             </div>
 
-            <div className='cart-total'>
+            {total !== 0 && <div className='cart-total'>
                 <span>
-                    433 $
+                    {total} $
                 </span>
-            </div>
+            </div> }
         </div>
     )
 }

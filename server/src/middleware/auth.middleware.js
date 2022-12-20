@@ -12,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
       const secret = process.env.JWT_SECRET;
       const verificationResponse = jwt.verify(token, secret);
       const userId = verificationResponse.id;
-      const findUserById = await DB.Users.findByPk(userId);
+      const findUserById = await DB.Users.findByPk(userId).catch(err=> console.error(err));
 
       if (findUserById) {
         req.authTokenData = { id: userId, name: findUserById.name, role: findUserById.role };

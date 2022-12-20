@@ -10,10 +10,6 @@ class CartModel extends Model {
                     primaryKey: true,
                     type: DataTypes.INTEGER,
                 },
-                cartItemId: {
-                    allowNull: false,
-                    type: DataTypes.INTEGER,
-                },
                 userId: {
                     allowNull: false,
                     type: DataTypes.INTEGER,
@@ -28,7 +24,6 @@ class CartModel extends Model {
     }
 
     static associate(model) {
-        this.hasMany(model.CartItems, {foreignKey: 'cartItemId', as: 'cartItems' });
         this.belongsTo(model.Users, {foreignKey: 'userId', as: 'users' });
     }
 }

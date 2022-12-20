@@ -25,6 +25,7 @@
             line-height: 1.6;
             font-size: 13px;  
             padding: 0.3rem 0;
+            align-items: center;
             
             .product-name {
                 font-weight: 400;
@@ -35,6 +36,8 @@
                 padding: 0px 7px;
                 background-color: $grey2;
                 color: $white;
+                height: 1.2rem;
+                vertical-align: middle;
             }
 
             .product-price {

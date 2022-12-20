@@ -6,11 +6,12 @@ import { AuthContext } from '../../Context/authContext'
 import './styles.scss'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { removeToken } from '../../Utils/utils'
 
 
 const Header = ({ toggle }) => {
     const { pathname } = useLocation()
-    const [ authState ] = useContext(AuthContext)
+    const [ authState, setAuthState ] = useContext(AuthContext)
     const [email, setEmail] = useState(null)
 
     useEffect(() => {
@@ -21,10 +22,15 @@ const Header = ({ toggle }) => {
         }
     }, [authState])
 
+    const logout = () => {
+        setAuthState({id: '', email: '', role: '', signedIn: false})
+        removeToken()
+    }
+
     return(
         <header className="header">
             <div className='header-logo'>
-            <Link to="/" className='logo-link'>Shopping <span>Demo</span></Link>
+            <Link to="/products" className='logo-link'>Shopping <span>Demo</span></Link>
             </div>
             
             <nav className='header-nav'>
@@ -35,9 +41,12 @@ const Header = ({ toggle }) => {
             </nav>
 
             <div className='header-cart'>
-                {email  && <div className='auth-email'>
-                    {email}
-                </div>}
+                {email  && <div className='logout'>
+                        <div className='auth-email'>
+                            {email}
+                        </div>
+                        <button className='btn btn-white' onClick={logout}>LogOut</button>
+                    </div>}
                 <button className='btn btn-white'>
                     <ShoppingCart size={30} color="#424242" onClick={toggle}/>
                 </button>

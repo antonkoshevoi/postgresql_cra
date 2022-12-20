@@ -12,6 +12,7 @@
     padding: 0 3rem;
     font-family: 'Monseratt', sans-serif;
     color: $black;
+    height: calc($header-height + 1rem);
 
     @include r(425) {
         padding: 0 1rem;
@@ -99,6 +100,7 @@
         }
 
         .auth-email {
+            margin-bottom: 0.5rem;
             margin-right: 1rem;
 
             @include r(375) {
@@ -115,4 +117,10 @@
     outline: none;
     border: none;
     cursor: pointer;
+}
+
+.logout {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }

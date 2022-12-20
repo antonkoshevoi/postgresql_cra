@@ -35,7 +35,7 @@ const Home = () => {
                 signedIn: true,
                 id: resData.data.user.id,
                 email: resData.data.user.email,
-                role: resData.data.user.email
+                role: resData.data.user.role
             })
         }
     }

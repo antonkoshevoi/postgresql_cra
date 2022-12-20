@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
-import { AuthContext } from './Context/authContext';
-import { router } from './routes';
+import createPersistedState from 'use-persisted-state'
+import { AuthContext } from './Context/authContext'
+import { CartContext } from './Context/cartContext'
+import { router } from './routes'
 
 function App() {
-  const [authState, setAuthState] = useState(
+  const useAuthState = createPersistedState('auth');
+  const [authState, setAuthState] = useAuthState(
     {
         id: '',
         email: '',
@@ -12,10 +15,15 @@ function App() {
         signedIn: false
     }
   )
+
+  const [isAddProduct, setIsAddProduct] = useState(false)
+
   return (
       <div className="App">
         <AuthContext.Provider value={[authState, setAuthState]} >
-          <RouterProvider router={router} />
+          <CartContext.Provider value={[isAddProduct, setIsAddProduct]} >
+            <RouterProvider router={router} />
+          </CartContext.Provider>
         </AuthContext.Provider>
       </div>
   );
