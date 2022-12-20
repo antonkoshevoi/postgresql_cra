@@ -2,31 +2,22 @@
 
 # Running
 
-Install dependencies
+Start client app
 
 ```
+cd client/
 yarn
+yarn start
+
 ```
 
 Start server app
 ```
-yarn dev (starts with development env)
-
-```
-Create initial migration
-```
+cd server/
+yarn
 sequelize init:migrations
-```
-
-Create migrations and seeds
-```
 sequelize db:migrate
 sequelize db:seed:all
+yarn dev 
 ```
 
-
-Start client app
-```
-yarn start
-
-```
