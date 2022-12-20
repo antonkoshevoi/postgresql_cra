@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
-import { useEffect } from 'react'
 import { AuthContext } from '../../Context/authContext';
 import { cartServices } from '../../Services/cartServices';
+import { useEffectOnce } from '../../Utils/hooks';
 import './styles.scss'
 
 const Cart = () => {
@@ -12,10 +12,9 @@ const Cart = () => {
         products.map(item => item.products.price * item.quantity).reduce((prev, curr) => prev + curr, 0)
         : 0
 
-    useEffect(() => {
+    useEffectOnce(() => {
         if(authState.id && authState.role === 'user') {
-            let isSubscribed = true;
-    
+            let isSubscribed = true
             const fetchData = async () => {
                 const data = await cartServices.getProductsInCart({userId: authState.id})
                 const json = await data.data.products

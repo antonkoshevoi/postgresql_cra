@@ -40,7 +40,7 @@ class CartService {
                 model: this.products,
                 as: 'products'
             }],
-        })
+        }).catch(err => console.log(err));
 
         return products;
     }
@@ -50,7 +50,7 @@ class CartService {
         let productsCart = [];
 
         try {
-            let product = await this.products.findByPk(productId);
+            let product = await this.products.findByPk(productId).catch(err => console.log(err));
 
             let carts = await this.carts.findAll({
                 where: {
@@ -110,7 +110,7 @@ class CartService {
                 productId: productId,
                 userId: userId
             }
-        })
+        }).catch(err => console.log(err));
         return cartItem;
     }
 
@@ -122,7 +122,8 @@ class CartService {
                 cartId: newCartId,
                 productId: productId,
                 quantity: 1
-            }).then(response => (response.get({plain: true})));
+            }).then(response => (response.get({plain: true})))
+            .catch(err => console.log(err));
 
             return productCart;
         } catch(err) {

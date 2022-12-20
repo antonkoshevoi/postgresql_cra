@@ -6,11 +6,12 @@ class AuthService {
     users = DB.Users;
 
     async login(data) {
+
         if(!data) {
             throw HttpException(400, "You're not data");
         }
 
-        const findUser = await this.findUserByEmail(data.email);
+        const findUser = await this.findUserByEmail(data.email).catch(err => console.log(err));
 
         if (!findUser) {
             throw HttpException(400, "User not found");
@@ -32,7 +33,7 @@ class AuthService {
             where: {
                 email
             }
-        })
+        }).catch(err => console.log(err));
 
         return findUser;
     }

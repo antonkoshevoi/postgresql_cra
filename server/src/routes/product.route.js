@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const ProductController = require("../controllers/product.controller");
-const authMiddleware = require("../middleware/auth.middleware");
 
 class ProductRoute {
     router = new Router();
@@ -11,7 +10,7 @@ class ProductRoute {
     }
 
     initializeRoutes() {
-        this.router.get("/api/products", authMiddleware, this.productController.getProducts)
+        this.router.get("/api/products", this.productController.getProducts)
     }
 }
 

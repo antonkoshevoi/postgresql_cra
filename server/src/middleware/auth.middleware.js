@@ -4,7 +4,7 @@ const DB = require("../database");
 
 const authMiddleware = async (req, res, next) => {
   const headers = req.headers;
-  const isBearer = headers && headers.authorization.split(" ")[0] === "Bearer";
+  const isBearer = headers.authorization && headers.authorization.split(" ")[0] === "Bearer";
 
   try {
     if (headers && isBearer) {

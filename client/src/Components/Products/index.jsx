@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../Context/authContext'
 import { CartContext } from '../../Context/cartContext'
 import { cartServices } from '../../Services/cartServices'
 import { productServices } from '../../Services/productServices'
+import { useEffectOnce } from '../../Utils/hooks'
 import './styles.scss'
 
 const Products = () => {
@@ -43,26 +44,26 @@ const Products = () => {
 
     }
 
-    useEffect(() => {
+    useEffectOnce(() => {
+        let isSubscribed = true
         if (!products.length) {
-            let isSubscribed = true
-                const fetchData = async () => {
-                  const data = await productServices.getAllProducts()
-                  const json = await data.data.products
-                  const results = await data.data.inventory
-        
-                  if (isSubscribed) {
+            const fetchData = async () => {
+                const data = await productServices.getAllProducts()
+                const json = await data.data.products
+                const results = await data.data.inventory
+    
+                if (isSubscribed) {
                     setProducts(json)
                     setInventory(results)
-                  }
                 }
-              
-                fetchData()
-                  .catch(err=> console.error(err))
-                return () => isSubscribed = false
+            }
+            
+            fetchData()
+                .catch(err=> console.error(err))
+            return () => isSubscribed = false
         }
 
-      }, [products])
+      }, [products.length])
 
     return (
         <div className='container'>

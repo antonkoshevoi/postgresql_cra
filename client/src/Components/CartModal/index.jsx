@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../../Context/authContext"
 import { CartContext } from "../../Context/cartContext"
 import { cartServices } from "../../Services/cartServices"
+import { useEffectOnce, useOutsideClick } from "../../Utils/hooks"
 
 import './styles.scss'
 
@@ -10,6 +11,12 @@ const CartModal = ({toggle}) => {
     const navigate = useNavigate()
     const [isAddProduct, setIsAddProduct] = useContext(CartContext)
     const [products, setProducts] = useState([])
+
+    const handleClickOutside = () => {
+        toggle()
+      }
+
+    const ref = useOutsideClick(handleClickOutside)
 
     const [ authState ] = useContext(AuthContext)
 
@@ -40,7 +47,7 @@ const CartModal = ({toggle}) => {
         }
       }, [authState.id, authState.role])
 
-    useEffect(() => {
+    useEffectOnce(() => {
         getProducts()
         setIsAddProduct(false)
     }, [getProducts, setIsAddProduct])
@@ -50,42 +57,36 @@ const CartModal = ({toggle}) => {
     }, [isAddProduct, getProducts])
 
     return(
-        <div className="wrapper" onClick={(e) => {
-            e.preventDefault()
-            toggle()
-        }}>
-            <div className='dropdown-menu'>
-                <ul>
-                    { (products?.length && authState.signedIn) ?
-                        products.map((item, i) => {
-                            return (
-                                <li key={`${i}-${item.id}`} className='cart-item'>
-                                    <div className='product-name'>
-                                        {item.products.title}
-                                    </div>
-                                    <div className='product-count'>
-                                        {item.quantity}
-                                    </div>
-                                    <div className='product-price'>
-                                        {item.products.price} $
-                                    </div>
-                                </li>)
-                        })
+        <div className='dropdown-menu' ref={ref}>
+            <ul>
+                { (products?.length && authState.signedIn) ?
+                    products.map((item, i) => {
+                        return (
+                            <li key={`${i}-${item.id}`} className='cart-item'>
+                                <div className='product-name'>
+                                    {item.products.title}
+                                </div>
+                                <div className='product-count'>
+                                    {item.quantity}
+                                </div>
+                                <div className='product-price'>
+                                    {item.products.price} $
+                                </div>
+                            </li>)
+                    })
 
-                     : <div className="empty-cart">Your cart is empty</div> }
-                </ul>
+                    : <div className="empty-cart">Your cart is empty</div> }
+            </ul>
 
-                {(authState.signedIn && total !==0) && <div className='total'>
-                    Total: {total} $
-                </div>}
+            {(authState.signedIn && total !==0) && <div className='total'>
+                Total: {total} $
+            </div>}
 
-                <div className='cart-actions'>
-                    <button className='btn btn-blue btn-small' onClick={handleClick}>
-                        Proceed
-                    </button>
-                </div>
+            <div className='cart-actions'>
+                <button className='btn btn-blue btn-small' onClick={handleClick}>
+                    Proceed
+                </button>
             </div>
-
         </div>
     )
 }
